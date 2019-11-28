@@ -1,0 +1,107 @@
+(1)
+"The Murderer Among Us"は
+正体隠匿系のパーティゲームです。
+--------------------------------------------------
+"The Murderer Among Us" is
+a deduction party game.
+
+(2)
+このゲームでは、二つの陣営に分かれて
+プレイすることになります。
+--------------------------------------------------
+Players join either of two sides
+in this game.
+
+(3)
+鍵の在処の手がかりを集めて
+屋敷からの脱出を目指すゲスト陣営と、
+--------------------------------------------------
+The one is guest side which aims
+to escape from the mansion
+by collecting clues to find the key.
+
+(4)
+ゲスト達の虐殺を目論む
+殺人鬼陣営です。
+--------------------------------------------------
+The other is murderer side which
+plans to murder the party guests.
+
+(5)
+また、各陣営には
+ユニークな能力を持つ
+様々な役職が存在します。
+--------------------------------------------------
+There are various roles
+that have unique abilities
+in each sides.
+
+(6)
+プレイヤー達はパーティの参加者となって、
+協力や騙し合いをしつつ
+それぞれの勝利を目指します。
+--------------------------------------------------
+Players aim for their own victory
+as a party participant cooperating
+with or cheating each other. 
+
+(7)
+ゲームは行動と話し合いを
+交互に繰り返して進んでいきます。
+--------------------------------------------------
+Game progresses by repeating
+actions and discussions alternately.
+
+(8)
+進行はゲームマスターが行います。
+画面の表示に従って
+プレイヤー達を案内します。
+--------------------------------------------------
+The gamemaster
+facilitates the game
+and guide players by reading display.
+
+(9)
+まず、プレイヤー達が順番に
+各々の行動を選択していきます。
+この時、操作プレイヤー以外は
+画面を見てはいけません。
+--------------------------------------------------
+At first, players take thier actions
+in order. Only active player can
+see the display.
+
+(10)
+全てのプレイヤーが行動を選択したら、
+その時点までに死亡したプレイヤーの一覧を確認し、
+話し合いへと移ります。
+--------------------------------------------------
+After all the players finished
+their actions, check dead players
+and move on to discussion.
+
+(11)
+話し合いの時間では、
+生存しているプレイヤー全員同士で
+自由に会話を行うことができます。
+--------------------------------------------------
+All alive players can talk to
+each other in the discussion time.
+
+(12)
+話し合いが終了したら、
+そこでそのラウンドは終わり、
+次のラウンドへ移行します。
+--------------------------------------------------
+Round ends and move on
+to the next round when
+the discussion time is over.
+
+(13)
+どちらかの陣営が
+勝利条件を達成するまで、
+これらを繰り返し続けます。
+--------------------------------------------------
+Repeat these until
+either of the sides
+achieves their goal.

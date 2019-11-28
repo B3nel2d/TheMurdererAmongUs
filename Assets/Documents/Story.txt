@@ -1,0 +1,50 @@
+(1)
+とある屋敷でパーティーが開かれていました。
+--------------------------------------------------
+A party is held in a mansion.
+
+(2)
+そんな中、ナイフを刺された死体が発見されます。
+--------------------------------------------------
+During the party,
+a dead body which is stabbed
+by knife is found.
+
+(3)
+「この中に殺人鬼がいる」
+--------------------------------------------------
+"There must be a murderer among us"
+
+(4)
+そう察した人々は屋敷から逃げようとしますが、
+出口の扉に鍵がかかっていることに気が付きます。
+--------------------------------------------------
+However people try to escape
+from the mansion, they noticed
+that the exit door is locked.
+
+(5)
+人々が慌てふためく中、
+突然不気味なアナウンスが
+屋敷中に鳴り響きます。
+--------------------------------------------------
+While people are confused,
+An eerie announcement resounded
+through the mansion.
+
+(6)
+「これよりゲームを開催致します。
+　貴方達の中には殺人鬼が紛れ込んでいます。
+　隠された鍵を探し屋敷から脱出して下さい！」
+--------------------------------------------------
+"Let the game begin now.
+ Murderers are mixed up with you.
+ Find a hidden key and escape from this mansion!"
+
+(7)
+パーティーの来客達は鍵の在処の手がかりを集めて脱出を、
+殺人鬼は来客全員を殺害することを目指しましょう。
+--------------------------------------------------
+Whereas the party guests
+collect clues and find the key,
+the murderers kill them all.
