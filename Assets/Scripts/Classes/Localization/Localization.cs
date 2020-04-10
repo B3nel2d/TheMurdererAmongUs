@@ -1,4 +1,12 @@
-﻿using System;
+﻿//====================================================================================================
+//
+//  Localization
+//
+//  ローカライズに関する処理や設定が規定されたクラス
+//
+//====================================================================================================
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -7,6 +15,9 @@ using UnityEngine.UI;
 
 public static class Localization{
 
+    /// <summary>
+    /// 言語の種類
+    /// </summary>
     public enum Language{
         English,
         Japanese
@@ -14,16 +25,25 @@ public static class Localization{
 
     /******************************/
 
+    /// <summary>
+    /// 現在設定中の言語
+    /// </summary>
     public static Language language{
         get;
         set;
     }
 
+    /// <summary>
+    /// ローカライズ設定
+    /// </summary>
     private static Dictionary<Language, List<TextSettings>> localizations{
         get;
         set;
     }
 
+    /// <summary>
+    /// ローカライズ対象のリスト
+    /// </summary>
     private static List<TextSettings> localizationTarget{
         get;
         set;
@@ -31,6 +51,9 @@ public static class Localization{
 
     /******************************/
 
+    /// <summary>
+    /// ゲーム開始前の準備処理
+    /// </summary>
     public static void Setup(){
         localizations = new Dictionary<Language, List<TextSettings>>();
         localizationTarget = null;
@@ -40,6 +63,9 @@ public static class Localization{
         }
     }
 
+    /// <summary>
+    /// 言語名のローカライズ
+    /// </summary>
     public static string LocalizeLanguageName(Language languageName){
         switch(languageName){
             case Language.English:
@@ -70,6 +96,9 @@ public static class Localization{
         return null;
     }
 
+    /// <summary>
+    /// キャラクター名のローカライズ
+    /// </summary>
     public static string LocalizeCharacterName(GameManager.CharacterName name){
         switch(name){
             case GameManager.CharacterName.Aligator:
@@ -329,6 +358,9 @@ public static class Localization{
         return null;
     }
 
+    /// <summary>
+    /// 部屋名のローカライズ
+    /// </summary>
     public static string LocalizeLocation(GameManager.Location? location){
         switch(location){
             case GameManager.Location.MainEntrance:
@@ -407,6 +439,9 @@ public static class Localization{
         return null;
     }
 
+    /// <summary>
+    /// 役職名のローカライズ
+    /// </summary>
     public static string LocalizeRole(Player.Role role){
         switch(role){
             case Player.Role.Murderer:
@@ -465,6 +500,9 @@ public static class Localization{
         return null;
     }
 
+    /// <summary>
+    /// ローカライズ対象の設定
+    /// </summary>
     public static void SetLocalizationTarget(Language language){
         if(!localizations.ContainsKey(language)){
             Debug.Log("Failed to set localization target.");
@@ -475,6 +513,9 @@ public static class Localization{
         localizationTarget = localizations[language];
     }
 
+    /// <summary>
+    /// CSVファイルの読み込み
+    /// </summary>
     private static void ReadCsv(string pass, Language language){
         List<TextSettings> valueList = new List<TextSettings>();
         StringReader stringReader = new StringReader(((TextAsset)Resources.Load(pass)).text);
@@ -532,6 +573,9 @@ public static class Localization{
         localizations.Add(language, valueList);
     }
 
+    /// <summary>
+    /// 設定ファイル内の修正処理
+    /// </summary>
     private static string TrimBothEnds(string line){
         line = Regex.Replace(line, @"^.", "");
         line = Regex.Replace(line, @".$", "");
@@ -539,6 +583,9 @@ public static class Localization{
         return line;
     }
 
+    /// <summary>
+    /// テキストのローカライズ
+    /// </summary>
     public static void LocalizeText(string id, Text text){
         if(!localizationTarget.Exists(item => item.id == id)){
             Debug.Log("Text ID [" + id + "] not found.");
@@ -561,6 +608,9 @@ public static class Localization{
         }
     }
 
+    /// <summary>
+    /// 絵本式ドキュメントのローカライズ
+    /// </summary>
     public static void LocalizePictureBook(GameObject pictureBook){
         int count = 1;
         string pass = pass = "Images/PictureBook/" + pictureBook.name + "/" + language + "/";

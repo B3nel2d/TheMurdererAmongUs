@@ -1,10 +1,21 @@
-﻿using System;
+﻿//====================================================================================================
+//
+//  GameManager
+//
+//  ゲーム進行や設定の管理を行うマネージャースクリプト
+//
+//====================================================================================================
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour{
 
+    /// <summary>
+    /// ゲームのフェーズ(段階)
+    /// </summary>
     public enum Phase{
         GameStart,
         RoundStart,
@@ -14,6 +25,9 @@ public class GameManager : MonoBehaviour{
         GameEnd
     }
 
+    /// <summary>
+    /// キャラクターの名前
+    /// </summary>
     public enum CharacterName{
         Aligator,
         Bear,
@@ -42,6 +56,9 @@ public class GameManager : MonoBehaviour{
         Zebra
     }
 
+    /// <summary>
+    /// マップ内の各部屋
+    /// </summary>
     public enum Location{
         MainEntrance,
         Parlor,
@@ -54,6 +71,9 @@ public class GameManager : MonoBehaviour{
 
     /******************************/
 
+    /// <summary>
+    /// クラスのインスタンス
+    /// </summary>
     private static GameManager singleton;
     public static GameManager instance{
         get{
@@ -64,62 +84,107 @@ public class GameManager : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// ゲーム(試合)中であるか
+    /// </summary>
     public bool isInGame{
         get;
         set;
     }
 
+    /// <summary>
+    /// 音楽のボリューム
+    /// </summary>
     public float musicVolume{
         get;
         set;
     }
+    /// <summary>
+    /// 効果音のボリューム
+    /// </summary>
     public float soundEffectVolume{
         get;
         set;
     }
     
+    /// <summary>
+    /// プレイヤー数の上限
+    /// </summary>
     public const int playerUpperLimit = 10;
+    /// <summary>
+    /// プレイヤー数の下限
+    /// </summary>
     public const int playerLowerLimit = 3;
+    /// <summary>
+    /// プレイヤー数
+    /// </summary>
     private int playerCount{
         get;
         set;
     }
 
+    /// <summary>
+    /// プレイヤーとNPCを合わせたキャラクターのリスト
+    /// </summary>
     public List<Character> characters{
         get;
         private set;
     }
+    /// <summary>
+    /// プレイヤーのリスト
+    /// </summary>
     public List<Player> players{
         get;
         private set;
     }
+    /// <summary>
+    /// NPCのリスト
+    /// </summary>
     public List<NonPlayer> nonPlayers{
         get;
         private set;
     }
     
+    /// <summary>
+    /// 現在のラウンド
+    /// </summary>
     public int round{
         get;
         private set;
     }
+    /// <summary>
+    /// 現在のターン
+    /// </summary>
     public int turn{
         get;
         private set;
     }
+    /// <summary>
+    /// 現在のフェーズ
+    /// </summary>
     public Phase phase{
         get;
         set;
     }
 
+    /// <summary>
+    /// 集めた手掛かりの数
+    /// </summary>
     public int clueCount{
         get;
         private set;
     }
+    /// <summary>
+    /// 必要な手掛かりの数
+    /// </summary>
     public int requiredClueCount{
         get;
         private set;
     }
 
+    /// <summary>
+    /// そのラウンド内で除外されたプレイヤーのリスト
+    /// </summary>
     public List<Player> excludedPlayersInTheRound{
         get;
         set;
@@ -137,6 +202,9 @@ public class GameManager : MonoBehaviour{
 
     /******************************/
 
+    /// <summary>
+    /// ゲーム開始前の準備処理
+    /// </summary>
     private void Setup(){
         if(instance == null){
             instance = this;
@@ -151,6 +219,9 @@ public class GameManager : MonoBehaviour{
         isInGame = false;
     }
 
+    /// <summary>
+    /// ゲーム設定の読み込み
+    /// </summary>
     private void LoadSettingData(){
         Localization.language = ((Localization.Language)PlayerPrefs.GetInt("Language", 0));
 
@@ -161,6 +232,9 @@ public class GameManager : MonoBehaviour{
         Debug.Log("Music: " + musicVolume + " / SE: " + soundEffectVolume);
     }
 
+    /// <summary>
+    /// 初期化処理
+    /// </summary>
     public void Initialize(){
         playerCount = 0;
 
@@ -177,6 +251,9 @@ public class GameManager : MonoBehaviour{
         excludedPlayersInTheRound = new List<Player>();
     }
 
+    /// <summary>
+    /// 各キャラクターの生成
+    /// </summary>
     private void CreateCharacters(){
         playerCount = UIManager.instance.playerNames.Count;
 
@@ -205,6 +282,9 @@ public class GameManager : MonoBehaviour{
         AllocateLocations();
     }
 
+    /// <summary>
+    /// ユニークな名前の割り当て
+    /// </summary>
     private void AllocateNames(){
         List<CharacterName> names = new List<CharacterName>();
         foreach(CharacterName name in Enum.GetValues(typeof(CharacterName))){
@@ -224,6 +304,9 @@ public class GameManager : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// 役職の割り当て
+    /// </summary>
     private void AllocateRoles(){
         List<Player.Role> roles = new List<Player.Role>();
 
@@ -349,6 +432,9 @@ public class GameManager : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// スポーンする部屋の割り当て
+    /// </summary>
     private void AllocateLocations(){
         foreach(Character character in characters){
             character.location = (Location)Enum.ToObject(typeof(Location), UnityEngine.Random.Range(0, Enum.GetValues(typeof(Location)).Length));
@@ -359,6 +445,9 @@ public class GameManager : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// ラウンド終了処理
+    /// </summary>
     private void FinishRound(){
         round++;
         turn = 0;
@@ -455,6 +544,9 @@ public class GameManager : MonoBehaviour{
         UIManager.instance.ChangeScreen(UIManager.instance.messageScreen);
     }
 
+    /// <summary>
+    /// ゲーム設定終了時の処理
+    /// </summary>
     public void OnSettingFinished(){
         CreateCharacters();
 
@@ -469,6 +561,9 @@ public class GameManager : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// 各プレイヤーの行動終了時の処理
+    /// </summary>
     public void OnActionFinished(){
         turn++;
 
@@ -482,6 +577,9 @@ public class GameManager : MonoBehaviour{
         UIManager.instance.informationPanel.SetActive(false);
     }
 
+    /// <summary>
+    /// シャットダウン時の処理
+    /// </summary>
     public void OnGameQuit(){
         Application.Quit();
     }

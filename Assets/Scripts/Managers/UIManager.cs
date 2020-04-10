@@ -1,4 +1,12 @@
-﻿using System;
+﻿//====================================================================================================
+//
+//  UIManager
+//
+//  UIや画面の管理を行うマネージャースクリプト
+//
+//====================================================================================================
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,6 +15,9 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour{
 
+    /// <summary>
+    /// 絵本式ドキュメントの種類
+    /// </summary>
     public enum PictureBook{
         Story,
         Tutorial
@@ -14,6 +25,9 @@ public class UIManager : MonoBehaviour{
 
     /******************************/
 
+    /// <summary>
+    /// クラスのインスタンス
+    /// </summary>
     private static UIManager singleton;
     public static UIManager instance{
         get{
@@ -24,29 +38,47 @@ public class UIManager : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// 現在描画対象のスクリーン
+    /// </summary>
     private GameObject activeScreen{
         get;
         set;
     }
 
+    /// <summary>
+    /// 絵本式ドキュメントの現在のページ番号
+    /// </summary>
     private int bookPageNumber{
         get;
         set;
     }
 
+    /// <summary>
+    /// プレイヤーの名前リスト
+    /// </summary>
     public List<string> playerNames{
         get;
         set;
     }
 
+    /// <summary>
+    /// 話し合いの残り時間
+    /// </summary>
     public float discussionTime{
         get;
         set;
     }
+    /// <summary>
+    /// タイマーが有効であるか
+    /// </summary>
     public bool isTimerActivated{
         get;
         set;
     }
+    /// <summary>
+    /// 話し合いの時間用のTimeSpan
+    /// </summary>
     public TimeSpan discussionTimeSpan{
         get;
         set;
@@ -54,6 +86,7 @@ public class UIManager : MonoBehaviour{
 
     /******************************/
     
+    //各画面の参照
     [SerializeField] public GameObject titleScreen;
     [SerializeField] public GameObject howToPlayScreen;
     [SerializeField] public GameObject pictureBookScreen;
@@ -76,6 +109,7 @@ public class UIManager : MonoBehaviour{
     [SerializeField] public GameObject resultScreen;
     [SerializeField] public GameObject overlay;
 
+    //各UIパーツの参照
     [SerializeField] private GameObject canvas;
     [SerializeField] private GameObject versionText;
     [SerializeField] private GameObject pictureBook;
@@ -108,6 +142,7 @@ public class UIManager : MonoBehaviour{
     [SerializeField] private GameObject skipDiscussionButton;
     [SerializeField] private GameObject resultPlayerList;
     
+    //各プレハブ
     [SerializeField] private GameObject messageWindowPrefab;
     [SerializeField] private GameObject audioSettingWindowPrefab;
     [SerializeField] private GameObject playerPrefab;
@@ -124,6 +159,7 @@ public class UIManager : MonoBehaviour{
     [SerializeField] private GameObject mapWindowPrefab;
     [SerializeField] private GameObject resultPlayerPrefab;
 
+    //各画像リソース
     [SerializeField] private Sprite murdererIconSprite;
     [SerializeField] private Sprite betrayerIconSprite;
     [SerializeField] private Sprite policemanIconSprite;
@@ -134,13 +170,16 @@ public class UIManager : MonoBehaviour{
     [SerializeField] private Sprite thumbsDownSprite;
     [SerializeField] private Sprite[] portraitSprites;
 
+    //各フォントリソース
     [SerializeField] public Font aftonJamesFont;
     [SerializeField] public Font ebGaramondFont;
     [SerializeField] public Font kokuMinchoFont;
     [SerializeField] public Font soukouMinchoFont;
     
+    //オーディオソース
     [SerializeField] private AudioSource[] audioSources;
 
+    //各音声リソース
     [SerializeField] private AudioClip shortPageTurnAudio;
     [SerializeField] private AudioClip midiumPageTurnAudio;
     [SerializeField] private AudioClip longPageTurnAudio;
@@ -160,6 +199,9 @@ public class UIManager : MonoBehaviour{
 
     /******************************/
 
+    /// <summary>
+    /// ゲーム開始前の準備処理
+    /// </summary>
     private void Setup(){
         if(instance == null){
             instance = this;
@@ -181,6 +223,9 @@ public class UIManager : MonoBehaviour{
         isTimerActivated = false;
     }
 
+    /// <summary>
+    /// 画面の切替
+    /// </summary>
     public void ChangeScreen(GameObject screen){
         activeScreen?.SetActive(false);
         screen?.SetActive(true);
@@ -190,6 +235,9 @@ public class UIManager : MonoBehaviour{
         UpdateScreen(screen);
     }
 
+    /// <summary>
+    /// 画面切替時における遷移先画面に応じた処理
+    /// </summary>
     private void UpdateScreen(GameObject screen){
         if(screen == ruleScreen){
             UpdateRuleScreen();
@@ -226,6 +274,9 @@ public class UIManager : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// 絵本式ドキュメントのページ切り替え
+    /// </summary>
     public void UpdatePictureBookScreen(int targetBook){
         foreach(Transform title in pictureBookScreen.transform.GetChild(0)){
             title.gameObject.SetActive(false);
@@ -283,6 +334,9 @@ public class UIManager : MonoBehaviour{
         previousPageButton.interactable = false;
     }
 
+    /// <summary>
+    /// ルール画面の更新処理
+    /// </summary>
     private void UpdateRuleScreen(){
         Button backButton = ruleScreenView.transform.GetChild(4).GetComponent<Button>();
         backButton.onClick.RemoveAllListeners();
@@ -305,6 +359,9 @@ public class UIManager : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// 役職説明画面の更新処理
+    /// </summary>
     public void UpdateRoleIntroductionScreen(int targetRole){
         ResetScroll(roleIntroductionScreenView);
 
@@ -370,6 +427,9 @@ public class UIManager : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// ゲーム設定編集画面の更新処理
+    /// </summary>
     private void UpdateSettingScreen(){
         foreach(Transform content in playerList.transform){
             Destroy(content.gameObject);
@@ -406,6 +466,9 @@ public class UIManager : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// 役職一覧画面の更新処理
+    /// </summary>
     private void UpdateRoleListScreen(){
         foreach(Transform content in roleList.transform){
             Destroy(content.gameObject);
@@ -456,6 +519,9 @@ public class UIManager : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// メッセージ画面の更新処理
+    /// </summary>
     private void UpdateMessageScreen(){
         Text title = messageScreen.transform.GetChild(0).GetComponent<Text>();
         Text description = messageScreen.transform.GetChild(0).GetComponentInChildren<Text>();
@@ -519,6 +585,9 @@ public class UIManager : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// 確認画面の更新処理
+    /// </summary>
     private void UpdateConfirmScreen(Player player){
         string skipButtonTextString = null;
         string confirmButtonTextString = null;
@@ -567,6 +636,9 @@ public class UIManager : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// 行動選択画面の更新処理
+    /// </summary>
     private void UpdateActionScreen(Player player){
         if(player == null || !GameManager.instance.players.Contains(player)){
             return;
@@ -739,6 +811,9 @@ public class UIManager : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// 情報パネルの更新処理
+    /// </summary>
     private void UpdateInformationPanel(Player player){
         playerIdText.GetComponent<Text>().text = player.id.ToString();
         playerCountText.GetComponent<Text>().text = GameManager.instance.players.Where(x => x.state != Character.State.Dead).Count().ToString();
@@ -760,6 +835,9 @@ public class UIManager : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// 能力選択画面の更新処理
+    /// </summary>
     private void UpdateAbilityScreen(Player player){
         foreach(Transform abilityButton in abilityList.transform){
             Destroy(abilityButton.gameObject);
@@ -940,6 +1018,9 @@ public class UIManager : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// 移動先選択画面の更新処理
+    /// </summary>
     private void UpdateMoveScreen(Player player){
         List<GameManager.Location> adjacentLocations = new List<GameManager.Location>();
 
@@ -1073,6 +1154,9 @@ public class UIManager : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// 除外プレイヤー確認画面の更新処理
+    /// </summary>
     private void UpdateExcludedPlayerListScreen(){
         foreach(Transform content in excludedPlayerList.transform){
             Destroy(content.gameObject);
@@ -1123,6 +1207,9 @@ public class UIManager : MonoBehaviour{
         GameManager.instance.excludedPlayersInTheRound.Clear();
     }
 
+    /// <summary>
+    /// 話し合い画面の更新処理
+    /// </summary>
     private void UpdateDiscussionScreen(){
         activeScreen.SetActive(false);
         discussionScreen.SetActive(true);
@@ -1143,6 +1230,9 @@ public class UIManager : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// リザルト画面の更新処理
+    /// </summary>
     private void UpdateResultScreen(){
         foreach(Transform content in resultPlayerList.transform){
             Destroy(content.gameObject);
@@ -1191,6 +1281,9 @@ public class UIManager : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// メッセージウィンドウの表示
+    /// </summary>
     public void ShowMessageWindow(string localizationId){
         GameObject window = Instantiate(messageWindowPrefab, overlay.transform);
         overlay.SetActive(true);
@@ -1209,6 +1302,9 @@ public class UIManager : MonoBehaviour{
         });
     }
 
+    /// <summary>
+    /// 音声設定ウィンドウの表示
+    /// </summary>
     public void ShowAudioSettingWindow(){
         GameObject window = Instantiate(audioSettingWindowPrefab, overlay.transform);
         overlay.SetActive(true);
@@ -1257,6 +1353,9 @@ public class UIManager : MonoBehaviour{
         });
     }
 
+    /// <summary>
+    /// 言語設定ウィンドウの表示
+    /// </summary>
     public void ShowLanguageSettingWindow(){
         GameObject window = Instantiate(targetSelectWindowPrefab, overlay.transform);
         overlay.SetActive(true);
@@ -1314,6 +1413,9 @@ public class UIManager : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// 開発者へのフィードバック送信画面の表示
+    /// </summary>
     public void ShowFeedbackWindow(){/*
         switch(Application.platform){
             case RuntimePlatform.WindowsPlayer:
@@ -1333,6 +1435,9 @@ public class UIManager : MonoBehaviour{
         }*/
     }
 
+    /// <summary>
+    /// 確認ウィンドウの表示
+    /// </summary>
     private void ShowConfirmWindow(string message, UnityAction action){
         GameObject window = Instantiate(confirmWindowPrefab, overlay.transform);
         overlay.SetActive(true);
@@ -1361,6 +1466,9 @@ public class UIManager : MonoBehaviour{
         });
     }
 
+    /// <summary>
+    /// 役職確認ウィンドウの表示
+    /// </summary>
     public void ShowRoleWindow(Player.Role role){
         GameObject window = Instantiate(roleWindowPrefab, overlay.transform);
         overlay.SetActive(true);
@@ -1398,6 +1506,9 @@ public class UIManager : MonoBehaviour{
         });
     }
 
+    /// <summary>
+    /// 名簿確認ウィンドウの表示
+    /// </summary>
     public void ShowRosterWindow(){
         GameObject window = Instantiate(rosterWindowPrefab, overlay.transform);
         overlay.SetActive(true);
@@ -1487,6 +1598,9 @@ public class UIManager : MonoBehaviour{
         });
     }
 
+    /// <summary>
+    /// マップ確認ウィンドウの表示
+    /// </summary>
     public void ShowMapWindow(){
         overlay.SetActive(true);
         GameObject window = Instantiate(mapWindowPrefab, overlay.transform);
@@ -1506,6 +1620,9 @@ public class UIManager : MonoBehaviour{
         });
     }
 
+    /// <summary>
+    /// プレイヤーの追加
+    /// </summary>
     public void AddPlayer(){
         GameObject player = Instantiate(playerPrefab, playerList.transform);
         Text orderText = player.transform.GetChild(0).GetComponent<Text>();
@@ -1666,6 +1783,9 @@ public class UIManager : MonoBehaviour{
             warningText.SetActive(false);
         }
     }
+    /// <summary>
+    /// プレイヤーの追加
+    /// </summary>
     public void AddPlayer(string name){
         GameObject player = Instantiate(playerPrefab, playerList.transform);
         Text orderText = player.transform.GetChild(0).GetComponent<Text>();
@@ -1811,15 +1931,24 @@ public class UIManager : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// プレイヤーの削除
+    /// </summary>
     public void DeletePlayers(){
         playerNames = new List<string>();
     }
 
+    /// <summary>
+    /// 画面のスクロールのリセット
+    /// </summary>
     public void ResetScroll(GameObject screen){
         RectTransform screenTransform = screen.transform.parent.GetComponent<RectTransform>();
         screenTransform.position = new Vector3(screenTransform.position.x, 0f, screenTransform.position.z);
     }
 
+    /// <summary>
+    /// ヘルプ画面の表示切替
+    /// </summary>
     public void ToggleHelpScreen(){
         ToggleScreen(helpScreen);
         ToggleScreen(informationHelpPanel);
@@ -1835,6 +1964,9 @@ public class UIManager : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// 画面表示切替
+    /// </summary>
     private void ToggleScreen(GameObject screen){
         if(screen.activeSelf){
             screen.SetActive(false);
@@ -1844,10 +1976,16 @@ public class UIManager : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// ポートレートの設定
+    /// </summary>
     private void SetPortrait(Image portrait, GameManager.CharacterName name){
         portrait.sprite = portraitSprites[(int)name];
     }
 
+    /// <summary>
+    /// 行動「パス」選択時の処理
+    /// </summary>
     public void Pass(){
         string confirmMessage = null;
         switch(Localization.language){
@@ -1866,6 +2004,9 @@ public class UIManager : MonoBehaviour{
         });
     }
 
+    /// <summary>
+    /// タイマーの更新
+    /// </summary>
     private void TickTimer(){
         if(!isTimerActivated){
             return;
@@ -1899,6 +2040,9 @@ public class UIManager : MonoBehaviour{
         timerText.GetComponent<Text>().text = string.Format("{0:D2}:{1:D2}", discussionTimeSpan.Minutes, discussionTimeSpan.Seconds);
     }
 
+    /// <summary>
+    /// タイマーの設定
+    /// </summary>
     public void AdjustTimer(int minute){
         if(discussionTime + minute * 60 < 0){
             discussionTime = 0;
@@ -1929,11 +2073,17 @@ public class UIManager : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// タイマーの停止
+    /// </summary>
     public void StopTimer(){
         isTimerActivated = false;
         audioSources[1].Stop();
     }
 
+    /// <summary>
+    /// 続けてプレイする際の処理
+    /// </summary>
     public void PlayAgain(){
         int count;
         int playerCount = playerNames.Count;
@@ -1945,6 +2095,9 @@ public class UIManager : MonoBehaviour{
         neighborNotificationText.SetActive(false);
     }
     
+    /// <summary>
+    /// ゲーム全体の表示言語切替
+    /// </summary>
     public void Localize(Localization.Language language){
         Localization.SetLocalizationTarget(language);
         PlayerPrefs.SetInt("Language", (int)language);
@@ -1963,6 +2116,9 @@ public class UIManager : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// 親ゲームオブジェクト内のTextの取得
+    /// </summary>
     private void GetTextInChildren(Transform parent, ref List<GameObject> texts){
         if(parent.childCount == 0){
             return;
@@ -1977,6 +2133,9 @@ public class UIManager : MonoBehaviour{
         }
     }
     
+    /// <summary>
+    /// 音声の再生
+    /// </summary>
     public void PlayAudio(AudioClip audioClip){
         audioSources[1].PlayOneShot(audioClip);
     }

@@ -1,23 +1,43 @@
-﻿using System;
+﻿//====================================================================================================
+//
+//  NonPlayer
+//
+//  NPCを規定するクラス
+//
+//====================================================================================================
+
+using System;
 using System.Collections.Generic;
 
 public class NonPlayer : Character{
 
+    /// <summary>
+    /// 性格の種類
+    /// </summary>
     public enum Personality{
         Normal
     }
 
     /******************************/
 
+    /// <summary>
+    /// 性格
+    /// </summary>
     public Personality personality{
         get;
         set;
     }
 
+    /// <summary>
+    /// 移動を行う確率
+    /// </summary>
     float chanceToMove;
 
     /******************************/
 
+    /// <summary>
+    /// コンストラクター
+    /// </summary>
     public NonPlayer(){
         personality = Personality.Normal;
 
@@ -31,6 +51,9 @@ public class NonPlayer : Character{
 
     /******************************/
 
+    /// <summary>
+    /// 行動の決定
+    /// </summary>
     public void Act(){
         float random = UnityEngine.Random.Range(0f, 1f);
 
@@ -42,6 +65,9 @@ public class NonPlayer : Character{
         }
     }
 
+    /// <summary>
+    /// 移動先の決定
+    /// </summary>
     void Move(){
         List<GameManager.Location> adjacentLocations = new List<GameManager.Location>();
 

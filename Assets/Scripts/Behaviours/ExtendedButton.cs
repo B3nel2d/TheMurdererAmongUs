@@ -1,8 +1,19 @@
-﻿using UnityEngine;
+﻿//====================================================================================================
+//
+//  ExtendedButton
+//
+//  UnityのButtonの拡張クラス
+//
+//====================================================================================================
+
+using UnityEngine;
 using UnityEngine.UI;
 
 public class ExtendedButton : Button{
 
+    /// <summary>
+    /// 標準のテキストの色
+    /// </summary>
     private Color defaultColor;
 
     protected override void Awake(){
@@ -15,6 +26,11 @@ public class ExtendedButton : Button{
         }
     }
 
+    /// <summary>
+    /// ボタンの状態遷移に合わせたテキスト色の変更
+    /// </summary>
+    /// <param name="state"></param>
+    /// <param name="instant"></param>
     protected override void DoStateTransition(SelectionState state, bool instant){
         base.DoStateTransition(state, instant);
 
